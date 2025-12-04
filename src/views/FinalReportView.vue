@@ -46,7 +46,6 @@ const tabs = [
   { key: 'upload-list', label: '업로드한 데이터', route: '/user' },
   { key: 'merge-report', label: '정합 보고서', route: '/user/merge' },
   { key: 'final-report', label: '최종 보고서', route: '/user/final' },
-  { key: 'raw-data', label: '원본 데이터', route: '/user/raw' },
 ];
 
 const activeTab = ref('final-report');
