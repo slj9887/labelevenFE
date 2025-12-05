@@ -1,11 +1,26 @@
-﻿target/
-uploads/
-.gradle/
+﻿# Build outputs
+target/
 build/
+*.jar
+*.war
+
+# Uploads
+uploads/
+
+# Gradle
+.gradle/
+gradle/
+
+# IDE
 .idea/
 *.iml
 *.iws
 *.ipr
-out/
+.vscode/
+
+# OS
 .DS_Store
-bin/
+Thumbs.db
+
+# Logs
+*.log
