@@ -1173,7 +1173,25 @@ body {
   padding-right: 4px;
 }
 
-/* Ensure right panel (panel-wide) scrolls internally */
+/* 내부 스크롤바 투명 처리 */
+.info-list::-webkit-scrollbar,
+.findings::-webkit-scrollbar {
+  width: 0px;
+  height: 0px;
+  background: transparent;
+}
+
+.info-list::-webkit-scrollbar-thumb,
+.findings::-webkit-scrollbar-thumb {
+  background: transparent;
+}
+
+.info-list,
+.findings {
+  scrollbar-width: none; /* Firefox: no gutter */
+}
+
+/* Ensure right panel (panel-wide) scrolls internally22 */
 .panel-wide {
   flex: 1.15;
   min-height: 0;
