@@ -148,6 +148,58 @@ const removeFile = (name) => {
   }
 };
 
+const handleUpload = async () => {
+  // 유효성 검사
+  if (!title.value.trim()) {
+    alert("제목을 입력해주세요.");
+    return;
+  }
+
+  if (!country.value) {
+    alert("수출국을 선택해주세요.");
+    return;
+  }
+
+  if (!selectedFile.value) {
+    alert("파일을 선택해주세요.");
+    return;
+  }
+
+  try {
+    console.log("📤 업로드 시작:", {
+      title: title.value,
+      country: country.value,
+      file: selectedFile.value.name,
+    });
+
+    // FormData 생성
+    const formData = new FormData();
+    formData.append("title", title.value);
+    formData.append("country", country.value);
+    formData.append("file", selectedFile.value);
+
+    // API 호출
+    const response = await projectAPI.uploadFile(formData);
+
+    console.log("✅ 업로드 성공:", response);
+
+    alert("업로드가 완료되었습니다!");
+
+    // 결과 페이지로 이동
+    router.push("/results");
+  } catch (error) {
+    console.error("❌ 업로드 실패:", error);
+
+    if (error.response) {
+      alert(error.response.data?.message || "업로드에 실패했습니다.");
+    } else if (error.request) {
+      alert("서버에 연결할 수 없습니다. 서버가 실행 중인지 확인해주세요.");
+    } else {
+      alert(error.message || "알 수 없는 오류가 발생했습니다.");
+    }
+  }
+};
+
 const goResults = () => {
   router.push("/results");
 };
