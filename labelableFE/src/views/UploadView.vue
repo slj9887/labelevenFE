@@ -5,7 +5,7 @@
       <div class="upload-form">
         <div class="form-row">
           <div class="form-label">제목</div>
-          <input class="form-input" type="text" placeholder="업로드할 문서 제목을 입력하세요" />
+          <input class="form-input" type="text" placeholder="생성할 보고서 이름을 입력하세요" />
         </div>
         <div class="form-row">
           <div class="form-label">수출국</div>

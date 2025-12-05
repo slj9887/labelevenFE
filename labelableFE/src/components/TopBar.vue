@@ -1,7 +1,7 @@
 <template>
   <header class="top-bar">
     <div class="brand">
-      <div class="brand-title">LABELEVEN</div>
+      <div class="brand-title">LabeLable</div>
       <div class="brand-subtitle">수출용 라벨 규격 진단</div>
     </div>
     <nav class="user-links">
