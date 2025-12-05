@@ -8,7 +8,6 @@ import ReportView from '../views/ReportView.vue';
 import UserView from '../views/UserView.vue';
 import MergeReportView from '../views/MergeReportView.vue';
 import FinalReportView from '../views/FinalReportView.vue';
-import RawDataView from '../views/RawDataView.vue';
 
 const routes = [
   { path: '/', name: 'upload', component: UploadView },
@@ -20,7 +19,6 @@ const routes = [
   { path: '/user', name: 'user', component: UserView },
   { path: '/user/merge', name: 'merge-report', component: MergeReportView },
   { path: '/user/final', name: 'final-report', component: FinalReportView },
-  { path: '/user/raw', name: 'raw-data', component: RawDataView },
 ];
 
 export const router = createRouter({

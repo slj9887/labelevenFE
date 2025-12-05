@@ -3,7 +3,7 @@
     <h2 class="panel-title">원본 데이터</h2>
     <div class="info-list">
       <div
-        v-for="item in items"
+        v-for="item in filteredItems"
         :key="item.label"
         class="info-card"
         :class="isActive(item) && 'card-active'"
@@ -21,8 +21,12 @@
 </template>
 
 <script setup>
+import { computed } from 'vue';
+
 const props = defineProps({
   hoveredLink: Object,
+  selectedTag: String,
+  hoverTag: String,
 });
 
 const emit = defineEmits(['hover-link', 'leave-link']);
@@ -30,7 +34,9 @@ const emit = defineEmits(['hover-link', 'leave-link']);
 const onEnter = (item) => emit('hover-link', { linkId: item.linkId });
 const onLeave = () => emit('leave-link');
 
-const isActive = (item) => props.hoveredLink && props.hoveredLink.linkId === item.linkId;
+const isActive = (item) =>
+  (props.hoveredLink && props.hoveredLink.linkId === item.linkId) ||
+  (props.hoverTag && props.hoverTag === item.tag);
 
 const items = [
   { label: '제품명:', value: '해양 스파클링 레몬 350ml', tag: '일반 정보', tone: 'chip-neutral', linkId: 'product' },
@@ -41,4 +47,8 @@ const items = [
   { label: '제조원:', value: '부산 스마트팩토리 (대한민국)', tag: '원산지 · 공장', tone: 'chip-origin', linkId: 'manufacturer' },
   { label: '보관:', value: '직사광선을 피해 서늘한 곳에 보관', tag: '표기 · 기한', tone: 'chip-shelflife', linkId: 'storage' },
 ];
+
+const filteredItems = computed(() =>
+  props.selectedTag ? items.filter((item) => item.tag === props.selectedTag) : items,
+);
 </script>

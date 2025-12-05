@@ -10,7 +10,7 @@
     </div>
     <div class="findings">
       <div
-        v-for="finding in findings"
+        v-for="finding in filteredFindings"
         :key="finding.title"
         class="finding-card"
         :class="isActive(finding) && 'card-active'"
@@ -44,21 +44,27 @@
 </template>
 
 <script setup>
+import { computed } from 'vue';
+
 const props = defineProps({
   hoveredLink: Object,
+  selectedTag: String,
+  hoverTag: String,
 });
 
 const emit = defineEmits(['hover-link', 'leave-link']);
 
 const onEnter = (finding) => emit('hover-link', { linkId: finding.linkId });
 const onLeave = () => emit('leave-link');
-const isActive = (finding) => props.hoveredLink && props.hoveredLink.linkId === finding.linkId;
+const isActive = (finding) =>
+  (props.hoveredLink && props.hoveredLink.linkId === finding.linkId) ||
+  (props.hoverTag && props.hoverTag === finding.category);
 
 const summaryCards = [
-  { label: 'WARN', value: 'Overall', detail: '4 rules', tone: 'tone-warn' },
-  { label: 'PASS', value: '1', detail: 'items', tone: 'tone-pass' },
-  { label: 'REVIEW', value: '3', detail: 'items', tone: 'tone-review' },
-  { label: 'MISSING', value: '0', detail: 'items', tone: 'tone-missing' },
+  { label: '전체', value: '8', detail: 'items', tone: 'tone-overall' },
+  { label: '통과', value: '1', detail: 'items', tone: 'tone-pass' },
+  { label: '경고', value: '4', detail: 'items', tone: 'tone-warn' },
+  { label: '누락', value: '0', detail: 'items', tone: 'tone-missing' },
 ];
 
 const findings = [
@@ -79,4 +85,8 @@ const findings = [
     laws: ["21 CFR 101.4(b)(2)", "Add 'Contains' lead-in for allergens."],
   },
 ];
+
+const filteredFindings = computed(() =>
+  props.selectedTag ? findings.filter((f) => f.category === props.selectedTag) : findings,
+);
 </script>

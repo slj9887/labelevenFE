@@ -46,10 +46,9 @@ const tabs = [
   { key: 'upload-list', label: '업로드한 데이터', route: '/user' },
   { key: 'merge-report', label: '정합 보고서', route: '/user/merge' },
   { key: 'final-report', label: '최종 보고서', route: '/user/final' },
-  { key: 'raw-data', label: '원본 데이터', route: '/user/raw' },
 ];
 
-const activeTab = ref('final-report');
+const activeTab = ref('merge-report');
 
 const switchTab = (key) => {
   const tab = tabs.find((t) => t.key === key);
@@ -61,9 +60,9 @@ const switchTab = (key) => {
 
 const cards = Array.from({ length: 18 }).map((_, idx) => ({
   id: idx,
-  title: idx % 2 === 0 ? '최종 보고서 샘플' : '최종 보고서 유럽 진단',
+  title: idx % 2 === 0 ? '정합 보고서 샘플' : '정합 보고서 유럽 진단',
   body:
-    '최종 보고서 샘플 텍스트입니다. 실제 데이터로 교체될 예정입니다. 최종 보고서 샘플 텍스트입니다.',
+    '정합 보고서 샘플 텍스트입니다. 실제 데이터로 교체될 예정입니다. 정합 보고서 샘플 텍스트입니다.',
   date: '2025-12-04',
   country: idx % 3 === 0 ? '유럽' : idx % 3 === 1 ? '미국' : '일본',
 }));
