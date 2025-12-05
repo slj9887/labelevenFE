@@ -5,11 +5,19 @@
       <div class="brand-subtitle">수출용 라벨 규격 진단</div>
     </div>
     <nav class="user-links">
-      <router-link to="/user" class="user-link">사용자</router-link>
+      <a href="#">사용자</a>
       <a href="#">로그아웃</a>
     </nav>
   </header>
 </template>
 
 <script setup>
+import { useRouter } from "vue-router";
+
+const router = useRouter();
+
+const handleLogout = () => {
+  localStorage.removeItem("accessToken");
+  router.push("/login");
+};
 </script>

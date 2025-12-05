@@ -1,29 +1,33 @@
-import { createRouter, createWebHistory } from 'vue-router';
-import UploadView from '../views/UploadView.vue';
-import ResultsView from '../views/ResultsView.vue';
-import LoginView from '../views/LoginView.vue';
-import SignupView from '../views/SignupView.vue';
-import ReviewView from '../views/ReviewView.vue';
-import ReportView from '../views/ReportView.vue';
-import UserView from '../views/UserView.vue';
-import MergeReportView from '../views/MergeReportView.vue';
-import FinalReportView from '../views/FinalReportView.vue';
-import RawDataView from '../views/RawDataView.vue';
+import { createRouter, createWebHistory } from "vue-router";
+import UploadView from "../views/UploadView.vue";
+import ResultsView from "../views/ResultsView.vue";
+import LoginView from "../views/LoginView.vue";
+import SignupView from "../views/SignupView.vue";
 
 const routes = [
-  { path: '/', name: 'upload', component: UploadView },
-  { path: '/review', name: 'review', component: ReviewView },
-  { path: '/results', name: 'results', component: ResultsView },
-  { path: '/report', name: 'report', component: ReportView },
-  { path: '/login', name: 'login', component: LoginView },
-  { path: '/signup', name: 'signup', component: SignupView },
-  { path: '/user', name: 'user', component: UserView },
-  { path: '/user/merge', name: 'merge-report', component: MergeReportView },
-  { path: '/user/final', name: 'final-report', component: FinalReportView },
-  { path: '/user/raw', name: 'raw-data', component: RawDataView },
+  { path: "/", name: "upload", component: UploadView },
+  { path: "/results", name: "results", component: ResultsView },
+  { path: "/login", name: "login", component: LoginView },
+  { path: "/signup", name: "signup", component: SignupView },
 ];
 
 export const router = createRouter({
   history: createWebHistory(),
   routes,
+});
+
+// 라우터 가드
+router.beforeEach((to, from, next) => {
+  const token = localStorage.getItem("accessToken");
+
+  // 인증이 필요한 페이지인데 토큰이 없으면 로그인 페이지로
+  if (to.meta.requiresAuth && !token) {
+    next("/login");
+  }
+  // 로그인/회원가입 페이지인데 이미 토큰이 있으면 업로드 페이지로
+  else if ((to.path === "/login" || to.path === "/signup") && token) {
+    next("/upload");
+  } else {
+    next();
+  }
 });

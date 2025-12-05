@@ -5,17 +5,22 @@
       <div class="upload-form">
         <div class="form-row">
           <div class="form-label">제목</div>
-          <input class="form-input" type="text" placeholder="업로드할 문서 제목을 입력하세요" />
+          <input
+            v-model="title"
+            class="form-input"
+            type="text"
+            placeholder="업로드할 문서 제목을 입력하세요"
+          />
         </div>
         <div class="form-row">
           <div class="form-label">수출국</div>
           <div class="select-wrap">
-            <select class="form-select">
-              <option disabled selected>나라를 선택하세요</option>
-              <option>미국</option>
-              <option>유럽</option>
-              <option>일본</option>
-              <option>호주</option>
+            <select v-model="country" class="form-select">
+              <option disabled value="">나라를 선택하세요</option>
+              <option value="US">미국</option>
+              <option value="EU">유럽</option>
+              <option value="JP">일본</option>
+              <option value="AU">호주</option>
             </select>
           </div>
         </div>
@@ -28,7 +33,6 @@
                 id="fileInput"
                 type="file"
                 class="hidden-file"
-                multiple
                 @change="onFileSelect"
               />
             </div>
@@ -37,7 +41,9 @@
               @dragover.prevent="onDragOver"
               @dragleave.prevent="onDragLeave"
               @drop.prevent="onDrop"
-              :class="[{ 'drop-active': dragOver, 'drop-has-files': files.length }]"
+              :class="[
+                { 'drop-active': dragOver, 'drop-has-files': files.length },
+              ]"
             >
               <template v-if="files.length">
                 <div class="file-list file-list-inline">
@@ -50,12 +56,16 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr v-for="file in files" :key="file.name">
+                      <tr v-for="fileItem in files" :key="fileItem.name">
                         <td class="file-name">
-                          <span class="file-remove" @click="removeFile(file.name)">✕</span>
-                          <span>{{ file.name }}</span>
+                          <span
+                            class="file-remove"
+                            @click="removeFile(fileItem.name)"
+                            >✕</span
+                          >
+                          <span>{{ fileItem.name }}</span>
                         </td>
-                        <td>{{ file.size }}</td>
+                        <td>{{ fileItem.size }}</td>
                         <td>대기</td>
                       </tr>
                     </tbody>
@@ -72,7 +82,9 @@
           </div>
         </div>
         <div class="form-actions">
-          <button class="primary-btn" @click="goResults">결과 확인하기</button>
+          <button class="primary-btn" @click="handleUpload">
+            결과 확인하기
+          </button>
         </div>
       </div>
     </div>
@@ -80,15 +92,19 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
+import { ref } from "vue";
+import { useRouter } from "vue-router";
+import { projectAPI } from "../api/api.js";
 
 const router = useRouter();
 const dragOver = ref(false);
 const files = ref([]);
+const title = ref("");
+const country = ref("");
+const selectedFile = ref(null);
 
 const formatSize = (bytes) => {
-  if (bytes === 0 || isNaN(bytes)) return '0KB';
+  if (bytes === 0 || isNaN(bytes)) return "0KB";
   const kb = bytes / 1024;
   return `${kb.toFixed(2)}KB`;
 };
@@ -97,13 +113,17 @@ const addFiles = (fileList) => {
   const incoming = Array.from(fileList).map((f) => ({
     name: f.name,
     size: formatSize(f.size),
+    file: f, // 실제 File 객체 저장
   }));
   files.value = [...files.value, ...incoming];
+  if (fileList.length > 0) {
+    selectedFile.value = fileList[0]; // 첫 번째 실제 File 객체
+  }
 };
 
 const onFileSelect = (e) => {
   addFiles(e.target.files || []);
-  e.target.value = '';
+  e.target.value = "";
 };
 
 const onDrop = (e) => {
@@ -121,9 +141,14 @@ const onDragLeave = () => {
 
 const removeFile = (name) => {
   files.value = files.value.filter((f) => f.name !== name);
+  if (files.value.length === 0) {
+    selectedFile.value = null;
+  } else {
+    selectedFile.value = files.value[0].file;
+  }
 };
 
 const goResults = () => {
-  router.push('/review');
+  router.push("/results");
 };
 </script>
