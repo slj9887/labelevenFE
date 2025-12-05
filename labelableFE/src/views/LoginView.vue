@@ -1,6 +1,17 @@
 <template>
   <div class="auth-wrap">
-    <div class="auth-left"></div>
+    <div class="auth-left">
+      <video
+        class="auth-video"
+        :src="videoSrc"
+        autoplay
+        muted
+        loop
+        playsinline
+      >
+        브라우저가 동영상을 지원하지 않습니다.
+      </video>
+    </div>
     <div class="auth-panel">
       <div class="auth-card">
         <h2 class="auth-title">로그인</h2>
@@ -27,6 +38,7 @@
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
+const videoSrc = '/login.mp4';
 
 const goUpload = () => {
   router.push('/');
