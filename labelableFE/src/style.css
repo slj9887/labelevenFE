@@ -688,8 +688,18 @@ body {
 
 .auth-left {
   flex: 1;
-  background: var(--bg);
   min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+
+.auth-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background: #000;
 }
 
 .auth-panel {
@@ -1191,7 +1201,7 @@ body {
   scrollbar-width: none; /* Firefox: no gutter */
 }
 
-/* Ensure right panel (panel-wide) scrolls internally22 */
+/* Ensure right panel (panel-wide) scrolls internally222 */
 .panel-wide {
   flex: 1.15;
   min-height: 0;
